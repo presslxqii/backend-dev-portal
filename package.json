@@ -1,11 +1,8 @@
 {
-  "name": "nodets-sample",
+  "name": "backend-console",
   "version": "1.0.0",
   "description": "",
   "main": "dist/src/index.js",
-  "publishConfig": {
-    "registry": "http://nexus3-misanche-nexus.apps.na39.openshift.opentlc.com/repository/npm_internal/"
-  },
   "dependencies": {
     "bluebird": "^3.5.1",
     "cls-hooked": "^4.2.2",
