@@ -1,18 +1,21 @@
 import * as express from "express";
-import swaggerTools = require("swagger-tools");
-import { Swagger20Request } from "swagger-tools";
-import { readFileSync } from "fs";
+import {Swagger20Request} from "swagger-tools";
+import {readFileSync} from "fs";
 import * as YAML from "js-yaml";
+import swaggerTools = require("swagger-tools");
+
 declare module "express" {
     interface Request {
-        swagger: Swagger20Request["swagger"];
+        swagger: Swagger20Request<any>["swagger"];
         requestId: string;
     }
 }
 const isProd = (process.env.NODE_ENV === "production");
+
 function loadDocumentSync(file: string): any {
     return YAML.load(readFileSync(file));
 }
+
 export const initSwaggerMiddlware = function (app: express.Express, basePath: string, cb: any) {
     const swaggerDoc = loadDocumentSync(basePath + "/definition/swagger.yaml");
     const options = {
@@ -26,9 +29,7 @@ export const initSwaggerMiddlware = function (app: express.Express, basePath: st
         app.use(middleware.swaggerMetadata());
 
         // Validate Swagger requests
-        app.use(middleware.swaggerValidator({
-
-        }));
+        app.use(middleware.swaggerValidator({}));
 
         // Route validated requests to appropriate controller
         app.use(middleware.swaggerRouter(options));
